@@ -1,165 +1,805 @@
 {
-  "analysis_timestamp": 1757795670653319,
-  "total_measurements": 20,
+  "analysis_timestamp": 1757797309367728,
+  "total_measurements": 100,
   "target_server": "74.125.250.129",
   "measurements": [
     {
       "sequence": 0,
-      "assigned_port": 21218,
-      "source_port": 10003,
-      "timestamp_us": 1757795670637836,
+      "assigned_port": 19864,
+      "source_port": 10000,
+      "timestamp_us": 1757797309347882,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 1,
-      "assigned_port": 17961,
-      "source_port": 10004,
-      "timestamp_us": 1757795670646020,
+      "assigned_port": 17811,
+      "source_port": 10015,
+      "timestamp_us": 1757797309348927,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 2,
-      "assigned_port": 18501,
-      "source_port": 10000,
-      "timestamp_us": 1757795670646047,
+      "assigned_port": 20138,
+      "source_port": 10012,
+      "timestamp_us": 1757797309349045,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 3,
-      "assigned_port": 20632,
-      "source_port": 10001,
-      "timestamp_us": 1757795670646054,
+      "assigned_port": 19947,
+      "source_port": 10025,
+      "timestamp_us": 1757797309349425,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 4,
-      "assigned_port": 17789,
-      "source_port": 10005,
-      "timestamp_us": 1757795670646059,
+      "assigned_port": 19098,
+      "source_port": 10020,
+      "timestamp_us": 1757797309350172,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 5,
-      "assigned_port": 17517,
-      "source_port": 10013,
-      "timestamp_us": 1757795670646062,
+      "assigned_port": 19603,
+      "source_port": 10006,
+      "timestamp_us": 1757797309350297,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 6,
-      "assigned_port": 17883,
-      "source_port": 10002,
-      "timestamp_us": 1757795670646069,
+      "assigned_port": 20270,
+      "source_port": 10030,
+      "timestamp_us": 1757797309350301,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 7,
-      "assigned_port": 20885,
-      "source_port": 10017,
-      "timestamp_us": 1757795670646072,
+      "assigned_port": 17796,
+      "source_port": 10001,
+      "timestamp_us": 1757797309351395,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 8,
-      "assigned_port": 20558,
-      "source_port": 10006,
-      "timestamp_us": 1757795670646342,
+      "assigned_port": 18516,
+      "source_port": 10002,
+      "timestamp_us": 1757797309351412,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 9,
-      "assigned_port": 19587,
-      "source_port": 10007,
-      "timestamp_us": 1757795670646355,
+      "assigned_port": 17865,
+      "source_port": 10004,
+      "timestamp_us": 1757797309351415,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 10,
-      "assigned_port": 18544,
-      "source_port": 10010,
-      "timestamp_us": 1757795670646361,
+      "assigned_port": 18729,
+      "source_port": 10008,
+      "timestamp_us": 1757797309351416,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 11,
-      "assigned_port": 20126,
-      "source_port": 10008,
-      "timestamp_us": 1757795670646443,
+      "assigned_port": 18654,
+      "source_port": 10009,
+      "timestamp_us": 1757797309351418,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 12,
-      "assigned_port": 18428,
-      "source_port": 10016,
-      "timestamp_us": 1757795670646735,
+      "assigned_port": 20909,
+      "source_port": 10013,
+      "timestamp_us": 1757797309351420,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 13,
-      "assigned_port": 19433,
-      "source_port": 10009,
-      "timestamp_us": 1757795670647426,
+      "assigned_port": 18987,
+      "source_port": 10011,
+      "timestamp_us": 1757797309351685,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 14,
-      "assigned_port": 20595,
-      "source_port": 10015,
-      "timestamp_us": 1757795670647431,
+      "assigned_port": 21239,
+      "source_port": 10039,
+      "timestamp_us": 1757797309351693,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 15,
-      "assigned_port": 19189,
-      "source_port": 10019,
-      "timestamp_us": 1757795670647435,
+      "assigned_port": 18028,
+      "source_port": 10010,
+      "timestamp_us": 1757797309351952,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 16,
-      "assigned_port": 20424,
-      "source_port": 10018,
-      "timestamp_us": 1757795670649261,
+      "assigned_port": 21353,
+      "source_port": 10041,
+      "timestamp_us": 1757797309352259,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 17,
-      "assigned_port": 20720,
-      "source_port": 10012,
-      "timestamp_us": 1757795670649511,
+      "assigned_port": 20456,
+      "source_port": 10046,
+      "timestamp_us": 1757797309352262,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 18,
-      "assigned_port": 18984,
-      "source_port": 10014,
-      "timestamp_us": 1757795670650243,
+      "assigned_port": 19896,
+      "source_port": 10016,
+      "timestamp_us": 1757797309352271,
       "target_ip": "74.125.250.129",
       "success": true
     },
     {
       "sequence": 19,
-      "assigned_port": 20495,
-      "source_port": 10011,
-      "timestamp_us": 1757795670652685,
+      "assigned_port": 20122,
+      "source_port": 10022,
+      "timestamp_us": 1757797309352273,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 20,
+      "assigned_port": 18341,
+      "source_port": 10047,
+      "timestamp_us": 1757797309352621,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 21,
+      "assigned_port": 20369,
+      "source_port": 10023,
+      "timestamp_us": 1757797309353093,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 22,
+      "assigned_port": 18708,
+      "source_port": 10048,
+      "timestamp_us": 1757797309353095,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 23,
+      "assigned_port": 19725,
+      "source_port": 10003,
+      "timestamp_us": 1757797309354281,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 24,
+      "assigned_port": 20484,
+      "source_port": 10018,
+      "timestamp_us": 1757797309354283,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 25,
+      "assigned_port": 19025,
+      "source_port": 10029,
+      "timestamp_us": 1757797309354284,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 26,
+      "assigned_port": 21221,
+      "source_port": 10059,
+      "timestamp_us": 1757797309354285,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 27,
+      "assigned_port": 17940,
+      "source_port": 10024,
+      "timestamp_us": 1757797309354895,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 28,
+      "assigned_port": 19399,
+      "source_port": 10027,
+      "timestamp_us": 1757797309354897,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 29,
+      "assigned_port": 17768,
+      "source_port": 10032,
+      "timestamp_us": 1757797309354897,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 30,
+      "assigned_port": 18223,
+      "source_port": 10035,
+      "timestamp_us": 1757797309354914,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 31,
+      "assigned_port": 20024,
+      "source_port": 10068,
+      "timestamp_us": 1757797309354914,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 32,
+      "assigned_port": 19047,
+      "source_port": 10069,
+      "timestamp_us": 1757797309354915,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 33,
+      "assigned_port": 18330,
+      "source_port": 10076,
+      "timestamp_us": 1757797309354916,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 34,
+      "assigned_port": 18269,
+      "source_port": 10079,
+      "timestamp_us": 1757797309354916,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 35,
+      "assigned_port": 20507,
+      "source_port": 10005,
+      "timestamp_us": 1757797309354925,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 36,
+      "assigned_port": 20472,
+      "source_port": 10080,
+      "timestamp_us": 1757797309354926,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 37,
+      "assigned_port": 18551,
+      "source_port": 10007,
+      "timestamp_us": 1757797309355566,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 38,
+      "assigned_port": 20139,
+      "source_port": 10019,
+      "timestamp_us": 1757797309355568,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 39,
+      "assigned_port": 19143,
+      "source_port": 10043,
+      "timestamp_us": 1757797309355569,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 40,
+      "assigned_port": 20659,
+      "source_port": 10071,
+      "timestamp_us": 1757797309355586,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 41,
+      "assigned_port": 18491,
+      "source_port": 10077,
+      "timestamp_us": 1757797309355586,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 42,
+      "assigned_port": 18624,
+      "source_port": 10014,
+      "timestamp_us": 1757797309356620,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 43,
+      "assigned_port": 19886,
+      "source_port": 10038,
+      "timestamp_us": 1757797309356622,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 44,
+      "assigned_port": 20663,
+      "source_port": 10049,
+      "timestamp_us": 1757797309356623,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 45,
+      "assigned_port": 17554,
+      "source_port": 10050,
+      "timestamp_us": 1757797309356624,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 46,
+      "assigned_port": 18030,
+      "source_port": 10056,
+      "timestamp_us": 1757797309356625,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 47,
+      "assigned_port": 17791,
+      "source_port": 10057,
+      "timestamp_us": 1757797309356625,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 48,
+      "assigned_port": 20011,
+      "source_port": 10081,
+      "timestamp_us": 1757797309356626,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 49,
+      "assigned_port": 20797,
+      "source_port": 10083,
+      "timestamp_us": 1757797309356627,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 50,
+      "assigned_port": 19860,
+      "source_port": 10028,
+      "timestamp_us": 1757797309356653,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 51,
+      "assigned_port": 18241,
+      "source_port": 10051,
+      "timestamp_us": 1757797309356654,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 52,
+      "assigned_port": 17810,
+      "source_port": 10052,
+      "timestamp_us": 1757797309356654,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 53,
+      "assigned_port": 19620,
+      "source_port": 10084,
+      "timestamp_us": 1757797309356655,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 54,
+      "assigned_port": 19471,
+      "source_port": 10021,
+      "timestamp_us": 1757797309356801,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 55,
+      "assigned_port": 20518,
+      "source_port": 10072,
+      "timestamp_us": 1757797309356802,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 56,
+      "assigned_port": 20285,
+      "source_port": 10087,
+      "timestamp_us": 1757797309356803,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 57,
+      "assigned_port": 18964,
+      "source_port": 10026,
+      "timestamp_us": 1757797309357396,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 58,
+      "assigned_port": 18488,
+      "source_port": 10036,
+      "timestamp_us": 1757797309357398,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 59,
+      "assigned_port": 20433,
+      "source_port": 10061,
+      "timestamp_us": 1757797309357399,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 60,
+      "assigned_port": 19963,
+      "source_port": 10063,
+      "timestamp_us": 1757797309357414,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 61,
+      "assigned_port": 17938,
+      "source_port": 10074,
+      "timestamp_us": 1757797309357414,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 62,
+      "assigned_port": 19551,
+      "source_port": 10097,
+      "timestamp_us": 1757797309357415,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 63,
+      "assigned_port": 20199,
+      "source_port": 10031,
+      "timestamp_us": 1757797309358195,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 64,
+      "assigned_port": 18854,
+      "source_port": 10040,
+      "timestamp_us": 1757797309358196,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 65,
+      "assigned_port": 19190,
+      "source_port": 10064,
+      "timestamp_us": 1757797309358197,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 66,
+      "assigned_port": 20775,
+      "source_port": 10067,
+      "timestamp_us": 1757797309358198,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 67,
+      "assigned_port": 18867,
+      "source_port": 10085,
+      "timestamp_us": 1757797309358198,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 68,
+      "assigned_port": 17641,
+      "source_port": 10033,
+      "timestamp_us": 1757797309364523,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 69,
+      "assigned_port": 21165,
+      "source_port": 10045,
+      "timestamp_us": 1757797309364524,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 70,
+      "assigned_port": 19739,
+      "source_port": 10053,
+      "timestamp_us": 1757797309364536,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 71,
+      "assigned_port": 19968,
+      "source_port": 10054,
+      "timestamp_us": 1757797309364537,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 72,
+      "assigned_port": 20483,
+      "source_port": 10073,
+      "timestamp_us": 1757797309364537,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 73,
+      "assigned_port": 20584,
+      "source_port": 10088,
+      "timestamp_us": 1757797309364538,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 74,
+      "assigned_port": 21183,
+      "source_port": 10091,
+      "timestamp_us": 1757797309364539,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 75,
+      "assigned_port": 19951,
+      "source_port": 10017,
+      "timestamp_us": 1757797309364549,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 76,
+      "assigned_port": 20526,
+      "source_port": 10042,
+      "timestamp_us": 1757797309364550,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 77,
+      "assigned_port": 20735,
+      "source_port": 10055,
+      "timestamp_us": 1757797309364550,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 78,
+      "assigned_port": 18904,
+      "source_port": 10058,
+      "timestamp_us": 1757797309365015,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 79,
+      "assigned_port": 19288,
+      "source_port": 10060,
+      "timestamp_us": 1757797309365016,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 80,
+      "assigned_port": 21198,
+      "source_port": 10062,
+      "timestamp_us": 1757797309365021,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 81,
+      "assigned_port": 19606,
+      "source_port": 10082,
+      "timestamp_us": 1757797309365022,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 82,
+      "assigned_port": 18803,
+      "source_port": 10089,
+      "timestamp_us": 1757797309365022,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 83,
+      "assigned_port": 18466,
+      "source_port": 10092,
+      "timestamp_us": 1757797309365023,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 84,
+      "assigned_port": 19246,
+      "source_port": 10034,
+      "timestamp_us": 1757797309365032,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 85,
+      "assigned_port": 18615,
+      "source_port": 10037,
+      "timestamp_us": 1757797309365033,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 86,
+      "assigned_port": 18707,
+      "source_port": 10065,
+      "timestamp_us": 1757797309365083,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 87,
+      "assigned_port": 18830,
+      "source_port": 10066,
+      "timestamp_us": 1757797309365084,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 88,
+      "assigned_port": 21112,
+      "source_port": 10070,
+      "timestamp_us": 1757797309365084,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 89,
+      "assigned_port": 18585,
+      "source_port": 10075,
+      "timestamp_us": 1757797309365085,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 90,
+      "assigned_port": 20010,
+      "source_port": 10086,
+      "timestamp_us": 1757797309365089,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 91,
+      "assigned_port": 17814,
+      "source_port": 10096,
+      "timestamp_us": 1757797309365090,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 92,
+      "assigned_port": 20532,
+      "source_port": 10044,
+      "timestamp_us": 1757797309365099,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 93,
+      "assigned_port": 17516,
+      "source_port": 10078,
+      "timestamp_us": 1757797309365100,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 94,
+      "assigned_port": 19687,
+      "source_port": 10093,
+      "timestamp_us": 1757797309365242,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 95,
+      "assigned_port": 20713,
+      "source_port": 10095,
+      "timestamp_us": 1757797309365243,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 96,
+      "assigned_port": 18668,
+      "source_port": 10098,
+      "timestamp_us": 1757797309365243,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 97,
+      "assigned_port": 19959,
+      "source_port": 10099,
+      "timestamp_us": 1757797309365244,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 98,
+      "assigned_port": 18058,
+      "source_port": 10090,
+      "timestamp_us": 1757797309365422,
+      "target_ip": "74.125.250.129",
+      "success": true
+    },
+    {
+      "sequence": 99,
+      "assigned_port": 17604,
+      "source_port": 10094,
+      "timestamp_us": 1757797309365423,
       "target_ip": "74.125.250.129",
       "success": true
     }

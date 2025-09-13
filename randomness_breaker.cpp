@@ -157,6 +157,8 @@ GlobalClockSync initialize_global_clock_sync();
 void align_to_phase_period(int phase_period_ms);
 bool detect_collision_promiscuous();
 void execute_master_nat_traversal_strategy();
+bool execute_targeted_port_attack(uint16_t target_port);
+uint16_t execute_single_request_to_destination(uint16_t source_port, const std::string& dest_ip, uint16_t dest_port);
 
 struct HolePunchResult {
     bool success;
@@ -1892,6 +1894,146 @@ bool test_p2p_connectivity(const std::string& peer_ip, uint16_t peer_port) {
     return received > 0;
 }
 
+uint16_t execute_single_targeted_request(uint16_t source_port) {
+    // Tek bir hedefli STUN request gönder ve sonucu döndür
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0) {
+        return 0;
+    }
+    
+    // Source port bind
+    struct sockaddr_in local_addr;
+    memset(&local_addr, 0, sizeof(local_addr));
+    local_addr.sin_family = AF_INET;
+    local_addr.sin_addr.s_addr = INADDR_ANY;
+    local_addr.sin_port = htons(source_port);
+    
+    if (bind(sock, (struct sockaddr*)&local_addr, sizeof(local_addr)) < 0) {
+        // Bind başarısız olursa otomatik port atamasına izin ver
+        local_addr.sin_port = 0;
+        if (bind(sock, (struct sockaddr*)&local_addr, sizeof(local_addr)) < 0) {
+            close(sock);
+            return 0;
+        }
+    }
+    
+    // STUN target address
+    struct sockaddr_in target_addr;
+    memset(&target_addr, 0, sizeof(target_addr));
+    target_addr.sin_family = AF_INET;
+    target_addr.sin_port = htons(19302);
+    inet_pton(AF_INET, target_stun_server.c_str(), &target_addr.sin_addr);
+    
+    // STUN request oluştur
+    uint8_t buffer[20];
+    uint8_t trans_id[12];
+    for (int i = 0; i < 12; ++i) {
+        trans_id[i] = byte_dist(rng);
+    }
+    create_stun_binding_request(buffer, trans_id);
+    
+    // Gönder
+    ssize_t sent = sendto(sock, buffer, 20, 0, (struct sockaddr*)&target_addr, sizeof(target_addr));
+    if (sent <= 0) {
+        close(sock);
+        return 0;
+    }
+    
+    // Yanıt bekle
+    struct timeval timeout = {2, 0}; // 2 saniye
+    setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+    
+    uint8_t response[1500];
+    struct sockaddr_in from_addr;
+    socklen_t from_len = sizeof(from_addr);
+    
+    ssize_t received = recvfrom(sock, response, sizeof(response), 0, 
+                               (struct sockaddr*)&from_addr, &from_len);
+    
+    close(sock);
+    
+    if (received >= 20) {
+        STUNHeader* header = reinterpret_cast<STUNHeader*>(response);
+        if (ntohs(header->type) == 0x0101) {
+            return parse_mapped_address(response, received);
+        }
+    }
+    
+    return 0;
+}
+
+uint16_t execute_single_request_to_destination(uint16_t source_port, const std::string& dest_ip, uint16_t dest_port) {
+    // Belirli bir source port ile belirli bir destination'a STUN request gönder
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0) {
+        return 0;
+    }
+    
+    // Source port bind
+    struct sockaddr_in local_addr;
+    memset(&local_addr, 0, sizeof(local_addr));
+    local_addr.sin_family = AF_INET;
+    local_addr.sin_addr.s_addr = INADDR_ANY;
+    local_addr.sin_port = htons(source_port);
+    
+    if (bind(sock, (struct sockaddr*)&local_addr, sizeof(local_addr)) < 0) {
+        // Bind başarısız olursa otomatik port atamasına izin ver
+        local_addr.sin_port = 0;
+        if (bind(sock, (struct sockaddr*)&local_addr, sizeof(local_addr)) < 0) {
+            close(sock);
+            return 0;
+        }
+    }
+    
+    // Destination address
+    struct sockaddr_in target_addr;
+    memset(&target_addr, 0, sizeof(target_addr));
+    target_addr.sin_family = AF_INET;
+    target_addr.sin_port = htons(dest_port);
+    
+    if (inet_pton(AF_INET, dest_ip.c_str(), &target_addr.sin_addr) <= 0) {
+        close(sock);
+        return 0;
+    }
+    
+    // STUN request oluştur
+    uint8_t buffer[20];
+    uint8_t trans_id[12];
+    for (int i = 0; i < 12; ++i) {
+        trans_id[i] = byte_dist(rng);
+    }
+    create_stun_binding_request(buffer, trans_id);
+    
+    // Gönder
+    ssize_t sent = sendto(sock, buffer, 20, 0, (struct sockaddr*)&target_addr, sizeof(target_addr));
+    if (sent <= 0) {
+        close(sock);
+        return 0;
+    }
+    
+    // Yanıt bekle
+    struct timeval timeout = {3, 0}; // 3 saniye (farklı server'lar için daha uzun)
+    setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+    
+    uint8_t response[1500];
+    struct sockaddr_in from_addr;
+    socklen_t from_len = sizeof(from_addr);
+    
+    ssize_t received = recvfrom(sock, response, sizeof(response), 0, 
+                               (struct sockaddr*)&from_addr, &from_len);
+    
+    close(sock);
+    
+    if (received >= 20) {
+        STUNHeader* header = reinterpret_cast<STUNHeader*>(response);
+        if (ntohs(header->type) == 0x0101) {
+            return parse_mapped_address(response, received);
+        }
+    }
+    
+    return 0; // Timeout veya hata
+}
+
 // Birthday-Paradox ve Gelişmiş NAT Traversal Implementasyonları
 
 std::vector<STUNTarget> select_multi_stun_targets(int count) {
@@ -2505,6 +2647,232 @@ void execute_master_nat_traversal_strategy() {
     std::cout << "Master strategy execution completed." << std::endl;
 }
 
+bool execute_targeted_port_attack(uint16_t target_port) {
+    std::cout << "\n🎯 TARGETED PORT ATTACK:" << std::endl;
+    std::cout << "Target Port: " << target_port << std::endl;
+    
+    if (measurements.empty()) {
+        std::cout << "❌ No measurement data available" << std::endl;
+        return false;
+    }
+    
+    // Mevcut port tahminleri yap
+    auto predictions = predict_next_ports(20);
+    
+    std::cout << "\n🔮 PORT PREDICTION ANALYSIS:" << std::endl;
+    std::cout << "Checking if target port " << target_port << " is predictable..." << std::endl;
+    
+    // Hedef portun tahmin edilen portlar arasında olup olmadığını kontrol et
+    bool found_in_predictions = false;
+    double best_confidence = 0.0;
+    std::string best_method = "none";
+    
+    for (const auto& pred : predictions) {
+        if (pred.predicted_port == target_port) {
+            found_in_predictions = true;
+            if (pred.confidence > best_confidence) {
+                best_confidence = pred.confidence;
+                best_method = pred.method;
+            }
+            std::cout << "   ✅ Target found in predictions! Method: " << pred.method 
+                      << ", Confidence: " << std::fixed << std::setprecision(3) << pred.confidence << std::endl;
+        }
+    }
+    
+    if (!found_in_predictions) {
+        std::cout << "   ⚠️  Target port not found in direct predictions" << std::endl;
+        
+        // Hedef portun mevcut port aralığında olup olmadığını kontrol et
+        std::vector<uint16_t> observed_ports;
+        for (const auto& m : measurements) {
+            observed_ports.push_back(m.assigned_port);
+        }
+        
+        uint16_t min_port = *std::min_element(observed_ports.begin(), observed_ports.end());
+        uint16_t max_port = *std::max_element(observed_ports.begin(), observed_ports.end());
+        
+        if (target_port >= min_port && target_port <= max_port) {
+            std::cout << "   📊 Target port is within observed range [" << min_port << "-" << max_port << "]" << std::endl;
+        } else {
+            std::cout << "   ❌ Target port is outside observed range [" << min_port << "-" << max_port << "]" << std::endl;
+            std::cout << "   🎯 Attempting targeted manipulation anyway..." << std::endl;
+        }
+    }
+    
+    // Strateji 0: Bilinen deterministik mapping'leri kontrol et
+    std::cout << "\n🔧 STRATEGY 0: Known deterministic mappings" << std::endl;
+    
+    // Gözlemlenen tutarlı mapping'ler
+    std::map<uint16_t, uint16_t> known_mappings = {
+        {10012, 20138}, {10015, 17811}, {10020, 19098}, 
+        {10025, 19947}, {10030, 20270}, {10039, 21239},
+        {10041, 21353}, {10022, 20122}, {10013, 20909},
+        {10047, 18341}, {10048, 18708}, {10011, 18987},
+        {10010, 18028}, {10023, 20369}
+    };
+    
+    for (const auto& mapping : known_mappings) {
+        if (mapping.second == target_port) {
+            std::cout << "   🎯 DIRECT HIT! Source " << mapping.first 
+                      << " maps to target " << target_port << std::endl;
+            
+            uint16_t result = execute_single_targeted_request(mapping.first);
+            if (result == target_port) {
+                std::cout << "   🎉 SUCCESS! Deterministic mapping confirmed!" << std::endl;
+                std::cout << "   📊 Source port " << mapping.first 
+                          << " → Target port " << target_port << std::endl;
+                return true;
+            } else {
+                std::cout << "   📊 Expected " << target_port << " but got " << result << std::endl;
+            }
+        }
+    }
+    
+    std::cout << "   No direct deterministic mapping found for target " << target_port << std::endl;
+
+    // Strateji 1: Hedef porta yakın portları dene
+    std::cout << "\n🔧 STRATEGY 1: Proximity-based targeting" << std::endl;
+    
+    std::vector<uint16_t> proximity_candidates;
+    for (int offset = -10; offset <= 10; ++offset) {
+        int candidate = static_cast<int>(target_port) + offset;
+        if (candidate > 1024 && candidate <= 65535) {
+            proximity_candidates.push_back(static_cast<uint16_t>(candidate));
+        }
+    }
+    
+    std::cout << "   Trying " << proximity_candidates.size() << " ports around target..." << std::endl;
+    
+    // Test proximity candidates
+    bool proximity_success = false;
+    for (uint16_t candidate : proximity_candidates) {
+        uint16_t result = execute_single_targeted_request(candidate);
+        if (result == target_port) {
+            std::cout << "   🎉 SUCCESS! Proximity attack worked!" << std::endl;
+            std::cout << "   📊 Source port " << candidate << " mapped to target port " << target_port << std::endl;
+            proximity_success = true;
+            break;
+        } else if (result > 0) {
+            std::cout << "   📊 Source " << candidate << " -> " << result 
+                      << " (distance: " << std::abs(static_cast<int>(result) - static_cast<int>(target_port)) << ")" << std::endl;
+        }
+    }
+    
+    if (proximity_success) {
+        return true;
+    }
+    
+    // Strateji 2: Pattern-based targeting
+    std::cout << "\n🔧 STRATEGY 2: Pattern-based targeting" << std::endl;
+    
+    if (found_in_predictions && best_confidence > 0.2) {
+        std::cout << "   Using " << best_method << " method with confidence " 
+                  << std::fixed << std::setprecision(3) << best_confidence << std::endl;
+        
+        // En iyi tahmin methodunu kullanarak daha fazla deneme yap
+        if (best_method == "delta_pattern") {
+            std::cout << "   Using delta pattern method..." << std::endl;
+            // Delta pattern tabanlı arama
+            std::vector<uint16_t> delta_candidates;
+            for (const auto& pred : predictions) {
+                if (pred.method == "delta_pattern") {
+                    delta_candidates.push_back(pred.predicted_port);
+                }
+            }
+            
+            for (uint16_t candidate : delta_candidates) {
+                uint16_t result = execute_single_targeted_request(candidate);
+                if (result == target_port) {
+                    std::cout << "   🎉 Delta pattern success!" << std::endl;
+                    return true;
+                }
+            }
+        } else if (best_method == "markov_chain") {
+            std::cout << "   Using markov chain method..." << std::endl;
+            // Markov chain tabanlı arama
+            for (int attempt = 0; attempt < 30; ++attempt) {
+                uint16_t candidate = 10000 + attempt + (rng() % 1000);
+                uint16_t result = execute_single_targeted_request(candidate);
+                if (result == target_port) {
+                    std::cout << "   🎉 Markov chain success!" << std::endl;
+                    return true;
+                }
+            }
+        }
+    }
+    
+    // Strateji 3: Brute force in predicted range
+    std::cout << "\n🔧 STRATEGY 3: Intelligent brute force" << std::endl;
+    
+    // En yakın tahmin edilen portları bul
+    std::vector<std::pair<uint16_t, int>> port_distances;
+    for (const auto& pred : predictions) {
+        int distance = std::abs(static_cast<int>(pred.predicted_port) - static_cast<int>(target_port));
+        port_distances.push_back({pred.predicted_port, distance});
+    }
+    
+    std::sort(port_distances.begin(), port_distances.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+    
+    if (!port_distances.empty()) {
+        uint16_t closest_predicted = port_distances[0].first;
+        int min_distance = port_distances[0].second;
+        
+        std::cout << "   Closest predicted port: " << closest_predicted 
+                  << " (distance: " << min_distance << ")" << std::endl;
+        
+        if (min_distance < 1000) {
+            // Yakın tahmin varsa, o bölgede yoğunlaşalım
+            std::vector<uint16_t> focused_candidates;
+            uint16_t start = std::min(closest_predicted, target_port);
+            uint16_t end = std::max(closest_predicted, target_port);
+            
+            for (uint16_t port = start; port <= end && focused_candidates.size() < 100; ++port) {
+                focused_candidates.push_back(port);
+            }
+            
+            std::cout << "   Focused search in range [" << start << "-" << end << "] with " 
+                      << focused_candidates.size() << " candidates" << std::endl;
+            
+            for (uint16_t candidate : focused_candidates) {
+                uint16_t result = execute_single_targeted_request(candidate);
+                if (result == target_port) {
+                    std::cout << "   🎉 SUCCESS! Focused search worked!" << std::endl;
+                    std::cout << "   📊 Source port " << candidate << " mapped to target port " << target_port << std::endl;
+                    return true;
+                }
+            }
+        }
+    }
+    
+    // Strateji 4: Son çare - rastgele deneme
+    std::cout << "\n🔧 STRATEGY 4: Last resort random sampling" << std::endl;
+    std::cout << "   Attempting 100 random source ports..." << std::endl;
+    
+    for (int i = 0; i < 100; ++i) {
+        uint16_t random_source = 10000 + (rng() % 50000);
+        uint16_t result = execute_single_targeted_request(random_source);
+        
+        if (result == target_port) {
+            std::cout << "   🎉 SUCCESS! Random sampling worked!" << std::endl;
+            std::cout << "   📊 Source port " << random_source << " mapped to target port " << target_port << std::endl;
+            return true;
+        }
+        
+        if (i % 20 == 0) {
+            std::cout << "   📊 Tried " << (i+1) << "/100 random attempts..." << std::endl;
+        }
+    }
+    
+    std::cout << "\n❌ All targeting strategies failed for port " << target_port << std::endl;
+    std::cout << "💡 Recommendations:" << std::endl;
+    std::cout << "   1. Try birthday-paradox approach with peer coordination" << std::endl;
+    std::cout << "   2. Increase measurement sample size for better predictions" << std::endl;
+    std::cout << "   3. Use multi-STUN entropy analysis for better targeting" << std::endl;
+    
+    return false;
+}
+
 // main fonksiyonu, programın giriş noktası
 int main(int argc, char* argv[]) {
     // Varsayılan STUN sunucusu ve portu
@@ -2525,9 +2893,15 @@ int main(int argc, char* argv[]) {
             std::cout << "    Entropy heatmap analysis only" << std::endl;
             std::cout << "\n  ./randomness_breaker server [port]" << std::endl;
             std::cout << "    P2P server mode for testing connections" << std::endl;
+            std::cout << "\n  ./randomness_breaker target <port_number>" << std::endl;
+            std::cout << "    Target specific port attack mode" << std::endl;
+            std::cout << "\n  ./randomness_breaker symmetric" << std::endl;
+            std::cout << "    Test symmetric NAT behavior (same source, different destinations)" << std::endl;
             std::cout << "\n📚 EXAMPLES:" << std::endl;
             std::cout << "  ./randomness_breaker master" << std::endl;
             std::cout << "  ./randomness_breaker entropy" << std::endl;
+            std::cout << "  ./randomness_breaker symmetric" << std::endl;
+            std::cout << "  ./randomness_breaker target 20000" << std::endl;
             std::cout << "  ./randomness_breaker server 8888" << std::endl;
             std::cout << "  ./randomness_breaker stun.l.google.com 19302 100" << std::endl;
             return 0;
@@ -2571,10 +2945,106 @@ int main(int argc, char* argv[]) {
             run_p2p_server(server_port);
             return 0;
         }
+        else if (mode == "symmetric") {
+            std::cout << "\n🔍 SYMMETRIC NAT BEHAVIOR TEST" << std::endl;
+            std::cout << "Testing same source port to different destinations..." << std::endl;
+            
+            initialize_analyzer(stun_server, stun_port_num);
+            
+            // Test: Aynı source port, farklı destination'lar
+            uint16_t test_source_port = 10012;
+            
+            std::vector<std::pair<std::string, std::string>> test_destinations = {
+                {"74.125.250.129", "Google STUN"},
+                {"74.125.250.129", "Google STUN (port 3478)"},  // Farklı port
+                {"74.125.250.129", "Google STUN (port 5349)"},  // Farklı port
+                {"142.250.191.127", "Google STUN 2"}            // Farklı Google IP
+            };
+            
+            std::cout << "🎯 Testing source port " << test_source_port << " to different destinations:" << std::endl;
+            
+            for (const auto& dest : test_destinations) {
+                uint16_t port = (dest.second.find("3478") != std::string::npos) ? 3478 :
+                               (dest.second.find("5349") != std::string::npos) ? 5349 : 19302;
+                
+                uint16_t result = execute_single_request_to_destination(test_source_port, dest.first, port);
+                std::cout << "   📊 " << test_source_port << " → " << dest.first << ":" << port 
+                          << " (" << dest.second << "): " << result << std::endl;
+            }
+            
+            std::cout << "\n🔍 SYMMETRIC NAT ANALYSIS:" << std::endl;
+            std::cout << "If all results are the same → Full Cone NAT" << std::endl;
+            std::cout << "If results differ → Symmetric NAT" << std::endl;
+            std::cout << "\n💡 FOR SYMMETRIC NAT P2P:" << std::endl;
+            std::cout << "1. Both peers must coordinate timing" << std::endl;
+            std::cout << "2. Use birthday-paradox with predicted port ranges" << std::endl;
+            std::cout << "3. Simultaneous hole punching required" << std::endl;
+            std::cout << "4. Entropy analysis reduces search space" << std::endl;
+            
+            cleanup_analyzer();
+            return 0;
+        }
+        else if (mode == "target") {
+            if (argc < 3) {
+                std::cout << "❌ Usage: ./randomness_breaker target <port_number>" << std::endl;
+                std::cout << "Example: ./randomness_breaker target 20000" << std::endl;
+                return 1;
+            }
+            
+            uint16_t target_port = static_cast<uint16_t>(std::stoi(argv[2]));
+            std::cout << "\n🎯 TARGET PORT ATTACK MODE" << std::endl;
+            std::cout << "Target Port: " << target_port << std::endl;
+            
+            initialize_analyzer(stun_server, stun_port_num);
+            
+            // Önce analiz yap
+            if (!execute_high_performance_burst(100)) {
+                std::cout << "❌ Failed to collect initial measurements" << std::endl;
+                cleanup_analyzer();
+                return 1;
+            }
+            
+            // Kapsamlı analiz
+            run_comprehensive_analysis();
+            
+            // Hedef port saldırısı
+            bool success = execute_targeted_port_attack(target_port);
+            
+            if (success) {
+                std::cout << "\n✅ SUCCESS! Port " << target_port << " successfully targeted!" << std::endl;
+                std::cout << "🎉 NAT traversal achieved using predictive algorithms!" << std::endl;
+            } else {
+                std::cout << "\n❌ Target port attack failed. Trying fallback strategies..." << std::endl;
+                
+                // Birthday-paradox ile deneme
+                auto heatmap = measure_phase_multi_stun(select_multi_stun_targets(3), 64);
+                if (!heatmap.bins.empty()) {
+                    auto plan = calculate_birthday_paradox_plan(heatmap.n_effective, 0.95);
+                    
+                    PeerInfo demo_peer;
+                    demo_peer.public_ip = "8.8.8.8";
+                    demo_peer.public_port = target_port;
+                    demo_peer.nat_type = "symmetric";
+                    demo_peer.last_seen = get_timestamp_us();
+                    
+                    bool bp_success = execute_simultaneous_punch_with_birthday_paradox(plan, heatmap, demo_peer);
+                    
+                    if (bp_success) {
+                        std::cout << "✅ Birthday-paradox approach succeeded!" << std::endl;
+                    } else {
+                        std::cout << "❌ All approaches failed for port " << target_port << std::endl;
+                    }
+                }
+            }
+            
+            cleanup_analyzer();
+            return 0;
+        }
     }
 
     // Normal komut satırı argümanlarını işle
-    if (argc > 1 && std::string(argv[1]) != "master" && std::string(argv[1]) != "entropy" && std::string(argv[1]) != "server") {
+    if (argc > 1 && std::string(argv[1]) != "master" && std::string(argv[1]) != "entropy" && 
+        std::string(argv[1]) != "server" && std::string(argv[1]) != "target") {
         stun_server = argv[1];
     }
     if (argc > 2) stun_port_num = static_cast<uint16_t>(std::stoi(argv[2]));
